@@ -64,7 +64,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .cart {
+    .list {
       margin-top: 40px;
       max-width: 400px;
       margin-left: auto;
@@ -72,7 +72,7 @@
       text-align: left;
     }
 
-    .cart h2 {
+    .list h2 {
       text-align: center;
     }
 
@@ -120,14 +120,14 @@
   <div class="add-section">
     <input type="text" id="newItemName" placeholder="Enter item name" />
     <input type="number" id="newItemPrice" placeholder="Enter price" />
-    <button class="add-btn" onclick="addNewGrocery()">Add to Cart</button>
+    <button class="add-btn" onclick="addNewGrocery()">Add to List</button>
   </div>
 
   <div class="container" id="shopItems"></div>
 
-  <div class="cart">
-    <h2>My Cart</h2>
-    <ul id="cartList"></ul>
+  <div class="list">
+    <h2>My List</h2>
+    <ul id="itemList"></ul>
     <p class="total" id="totalPrice">Total: ₦0.00</p>
   </div>
 
@@ -150,12 +150,12 @@
       { name: "Milk", price: 1300 }
     ];
 
-    // Empty cart
-    let cart = [];
+    // Empty list
+    let list = [];
 
     // Selecting elements
     const shopItemsDiv = document.getElementById("shopItems");
-    const cartList = document.getElementById("cartList");
+    const itemList = document.getElementById("itemList");
     const totalDisplay = document.getElementById("totalPrice");
 
     // Display grocery items on the page
@@ -165,38 +165,38 @@
         const div = document.createElement("div");
         div.className = "item";
         div.textContent = `${item.name} - ₦${item.price}`;
-        div.onclick = () => addToCart(item);
+        div.onclick = () => addToList(item);
         shopItemsDiv.appendChild(div);
       });
     }
 
-    // Add clicked item to the cart
-    function addToCart(item) {
-      cart.push(item);
-      renderCart();
+    // Add clicked item to the list
+    function addToList(item) {
+      list.push(item);
+      renderList();
     }
 
-    // Update and display cart items and total
-    function renderCart() {
-      cartList.innerHTML = "";
-      cart.forEach((item, index) => {
+    // Update and display list items and total
+    function renderList() {
+      itemList.innerHTML = "";
+      list.forEach((item, index) => {
         const li = document.createElement("li");
         li.textContent = `${item.name} - ₦${item.price}`;
         const delBtn = document.createElement("button");
         delBtn.textContent = "X";
         delBtn.className = "delete";
         delBtn.onclick = () => {
-          cart.splice(index, 1);
-          renderCart();
+          list.splice(index, 1);
+          renderList();
         };
         li.appendChild(delBtn);
-        cartList.appendChild(li);
+        itemList.appendChild(li);
       });
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const total = list.reduce((sum, item) => sum + item.price, 0);
       totalDisplay.textContent = "Total: ₦" + total.toFixed(2);
     }
 
-    // Add new grocery directly to cart
+    // Add new grocery directly to list
     function addNewGrocery() {
       const name = document.getElementById("newItemName").value.trim();
       const price = parseFloat(document.getElementById("newItemPrice").value);
@@ -207,8 +207,8 @@
       }
 
       const newItem = { name, price };
-      cart.push(newItem);
-      renderCart();
+      list.push(newItem);
+      renderList();
 
       document.getElementById("newItemName").value = "";
       document.getElementById("newItemPrice").value = "";
